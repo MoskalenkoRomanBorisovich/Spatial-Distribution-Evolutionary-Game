@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper]{jpconf}
 
 %%% Работа с русским языком
 
@@ -35,130 +35,260 @@
 \usepackage{subcaption}
 \captionsetup{labelsep=period} %. вместо : в рис
 
-\title{Simulations of the Nowak-May game in three spatial dimensions}
-\author{Moskalenko Roman \\ HSE
-\and Burovski Evgeni}
-\date{October \\ 2020}
-
 \begin{document}
 
-\maketitle
+\title{Spatial chaos in the Nowak-May game in three dimensions}
+%
+\author{Roman Moskalenko$^{1}$, Evgeni Burovski$^{1}$, and Lev Schur$^{1, 2}$}
+%
+\address{$^1$ National Research University Higher School of Economics, 101000 Moscow, Russia}
+\address{$^2$ Landau Institute for Theoretical Physics, 142432 Chernogolovka, Russia}
+
+
+\begin{abstract}
+We consider a spatially distributed evolutionary game based on the Prisoner's Dilemma 
+with agents arranged on a three-dimensional simple cubic lattice. 
+Comparing to two-dimensional arrangements, we find that the larger number of
+neighbors favors the formation of spatial chaos: the steady state of the game 
+is chaotic unless the payoff parameter is small.
+\end{abstract}
 
 \section{Introduction}
 
-We study the evolutionary spatially distributed game of Nowak and May \cite{nowak and may 1}, \cite{nowak and may 2}. Based on the Prisoner’s Dilemma this model defines evolution of cooperation in group of agents, which are arranged in a pattern. In the original work pattern was a square lattice. This two-dimensional game has a variety of different regimes. But what happens when we change the pattern from two-dimensional square lattice to three-dimensional cubic lattice. In this paper we look at the dynamics of the game on cubic lattice.
+Evoltutionary formation of cooperation is an open problem
+in population dynamics, since altruistic behavior apparently contradicts the
+Darwinian selection \cite{Axelrod2006}.
+Game-theoretic considerations are widely used to encode the competition between
+individuals, with the Prisoner Dilemma game serving as a basic paradigm of
+conflict and competition \cite{Smith1982}.
+In this game, agents independently choose one of two strategies: 
+cooperate, $\mathcal{C}$, or defect, $\mathcal{D}$ and receive payoffs according
+to the strategies of the player and its opponent. In a single pairwise game of
+memory-less agents, the winning strategy is defection. However,
+\emph{structured populations} of myopic agents can sustain groups of
+cooperators in the steady state of an iterated game, even when each pairwise
+game favors defection \cite{Nowak1992}.
+
+Starting from pioneering works \cite{Nowak1992, Nowak1993}, which considered
+a deterministic game on a square lattice, the emergence of cooperative behavior
+was investigated for various spatial arrangements and game rules: a noisy
+dynamics games on regular, decorated and frustrated two-dimensional lattices
+\cite{Szolnoki2005, Hauert2005, Szolnoki2017} and coevolving random networks
+\cite{Szolnoki2009}. Deterministic imitation dynamics have been studied
+on the square lattice, \cite{Kolotev2018}, the triangular lattice
+\cite{Burovski2019} and diluted 2D lattices \cite{Arenzon2001}.
+
+Focusing on the long-time behavior of an iterated spatially
+distributed game, the steady states can be roughly classified into stationary
+and chaotic. The former feature relatively stable clusters of agents of the same
+strategy, and only agents located at the boundaries switch strategies often. 
+In a chaotic regime, every agent switch the strategies at
+the timescale of several time steps.
+
+We note that the bulk of prior work was focussing on the two-dimensional arrangements of
+players. The local structure of the population was found to play non-trivial
+role: the game on the square lattice features a chaotic regime \cite{Nowak1992}, 
+but on the triangular lattice the chaotic regime is absent \cite{Burovski2019}.
+
+In this paper, we study the game on a three-dimensional lattice. Compared to 
+the game on the square lattice, we find that
+the steady state of the game in three dimensions is chaotic in a much larger 
+range of the payoff parameter.
+
+The rest of the paper is organized as follows. We define the model in
+Sec.\ \ref{sec:model}, and discuss simulation results for a three-dimensional
+lattice in Sec.\ \ref{sec:3D}. In Sec. \ref{subsec:fc} we discuss the steady
+states of the game, while in Sec. \ref{subsec:chaos} we focus on classifying the
+regimes into stationary and chaotic.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Game description}
+\section{The game of Nowak and May}
+\label{sec:model}
 
-The game is based on the Prisoner’s Dilemma. In this variation of the dilemma we have two agents follow one of two strategies cooperate or defect. Agents play with each other and get points depending on what strategy both of them use according to this table. Nowak and May's original game uses a square grid on which agents are located. Each step of the game agents play with their neighbors and get points according to the table \ref{fig:score table}. Then after all points are scored agents change their strategy to the strategy of the neighbor with the best score.
+Following Ref.\ \cite{Nowak1992}, we consider a synchronous deterministic game
+where individual agents display purely myopic behavior: at each time step
+an agent adopts the strategy of its neighbor with the maximum total payoff
+in the previous round. The game is played in discrete time steps. 
 
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
-		\includegraphics[width = \textwidth]{Game_score_table.png}
-		\caption{Score table}	
-		\label{fig:score table}	
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
-		\includegraphics[width = \textwidth]{Games_with_neighbors_pic.png}
-		\caption{Square lattice neighbors}
-	\end{subfigure}
-	\caption{}
+At each time step, an agent plays pairwise Prisoner Dilemma games with 
+each of its neighbors%
+%
+\footnote{On the square lattice, an agent plays 9 games: eight neighbors (chess king moves)
+and itself \cite{Nowak1993}. On the cubic lattice, the number of games is 27, i.e.
+the neighborhood of an agent is the cube with the edge length of 3 sites.}
+%
+%
+, and collects the payoff according to the the payoff
+table, Fig.\ \ref{fig:score-table}.  Note that the we set the
+$\mathcal{C}$-$\mathcal{C}$ payoff to unity to fix the payoff scale. This way, the
+game is parameterized by a single parameter: the payoff, $b$, the defector receives
+in a game with a cooperator. 
+The total payoff of an agent is sum of the payoffs of the pairwise games. Once all 
+payoffs are determined, agents change their strategy to imitate the neighbor
+who received the maximum payoff in this round. This concludes the time step,
+and the game repeats.
+
+Note that the rules of the game are purely deterministic: the full time
+evolution of a game field is determined by the initial state of the field. 
+The only source of randomness is the initial state of the field: we use for initial
+conditions random fields with a given initial density of cooperators, $f_0$.
+The observable quantities are averages of realizations of the initial conditions.
+This way, game is characterized by two scalar quantities: the payoff parameter, $b$,
+and the initial concentration of cooperators, $f_0$.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.22\textwidth]{Game_score_table.png}
+\caption{The payoff matrix for a pairwise game. Setting the payoff of the
+$\mathcal{C}$-$\mathcal{C}$ game does not limit generality, since it simply acts
+to fix the payoff scale. This way, the only free parameter is $b$: the payoff of
+a defector in a game with a cooperator. 
+See text for discussion.}	
+\label{fig:score-table}	
+\end{center}
 \end{figure}
 
 
-Apart from the initial state, the game is completely determined by the parameter $b$, then how this parameter affects the game and is of greatest interest to us.
+The discrete structure of the payoffs implies that the dynamics of the game given
+the initial conditions is insensitive to infinitesimal changes of the payoff parameter $b$ \cite{Nowak1992}.
+The dynamics can only change at special values of $b$, which are nothing but simple fractions, $m/n$, 
+where $m$ and $n$ are positive integers greater then or equal to the number of elementary games of an agent.
+On the square lattice this means that $1 \leqslant m, n \leqslant 9$ \cite{Nowak1992}. For the cubic lattice we consider in this work, 
+%
+\begin{equation}
+1 \leqslant m, n \leqslant 27\;.
+\label{mn}
+\end{equation}
 
-On cubic lattice, the game goes according to the same rules. The major change is that every agent now has 27 neighbors (including themselves) instead of 9. It is important because not all possible values of parameter $b$ correspond to unique regime of the game. There are transition points, for all values between them the game is identical. These points are rational fractions with the numerator and denominator have values from one to number of neighbors. Therefor number of possible unique regimes increases significantly.
 
-\section{Current results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Numerical simulations of the 3D game}
+\label{sec:3D}
 
-We have measured some key parameters of the game: concentration of cooperators \ref{fig:Fc}, strategy change time \ref{fig:change time} and persistence \ref{fig:persistence}.
+The original work Ref. \cite{Nowak1992, Nowak1993} and subsequent studies, \cite{Kolotev2018, Burovski2019},
+investigated the game on a two-dimensional square and triangular lattices with $L\times L$ sites.
+In this work, we use simple cubic lattice with $L\times L \times L$ sites.
+Since we are ultimately interested in the behavior of the infinite population size, 
+we use periodic boundary conditions to minimize finite-size effects.
 
-Concentration of cooperators is the number of cooperators divided by the number of all agents. Strategy change time is mean time for agents to change strategy. Persistence is fraction of agents who have not changed their strategy after stabilization of the field.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The steady-state behavior of the game}
+\label{subsec:fc}
 
+We simulate the game field with $L=60$ using $10^4$ using 10 random realizations of initial conditions at a fixed value of the initial concentration, $f_0 = 0.9$.
+To reach the steady state, we monitor time dependence of the fraction of cooperators, $f_c$ (the number of cooperators divided by $L^3$). 
+In most cases, $f_c$ stabilizes (up to fluctuations) in $\sim 2$-$3 \times 10^3$ steps.  
+We then simulate the game for $10^4$ steps and average over the time measurements and realizations of initial conditions.
 
-These measurements  largely describe the behavior of the game. For example we can see sharp decrease of the concentration of cooperators at points like $b = \frac{27}{n}, n\in\{1, 2, \ldots, 27\} $. It happens because when $b > \frac{27}{n}$ isolated groups of $n$ or more defectors will grow and their neighbors will become defectors. There are also some things that we have not currently explain. Like why does the concentration of cooperators sometimes increases with greater $b$ values. 
+Fig.\ \ref{fig:Fc} shows the dependence of the fraction of cooperators, $f_c$ on the payoff parameter $b$. 
+For $b < 1$ the game converges to $f_c = 1$. For $b > 2$, the end state is $f_c = 0$. In the intermediate range, $1 < b < 2$, Fig.\ \ref{fig:Fc} clearly shows a non-monotonic behavior with large jumps at 
+$b = 27 / n$, with $n\in\{1, 2, \ldots, 27\} $. This is due to the fact that for $b > 27/n$ isolated groups of $n$ or more defectors grow and convert their $\mathcal{C}$ neighbors into defectors.
 
 \begin{figure}[H]
 	\centering
 	
-	\includegraphics[width = \textwidth]{C_0.9_graph.png}
-	\caption{Mean concentration of cooperators, each value is the average of ten independent fields, 100 measurements were taken on each field every 100 evolution steps	}
+	\includegraphics[width=0.5\textwidth]{C_0.9_graph.png}
+	\caption{Average fraction cooperators as a function of the payoff parameter. Each point is the average of ten independent fields, with 100 measurements every 100 evolution steps.}
 	\label{fig:Fc}
+\end{figure}
 
+\emph{Dependence on $f_0$.---} Since Fig.\ \ref{fig:Fc} shows a strong dependence on the payoff parameter, a natural question is what is the effect of the value of the initial concentration $f_0$. To this end we, perform similar simulations with
+$f_0 = 0.1$ and $f_0 = 0.5$. For each value of $f_0$, we simulate 100 independent realizations of initial conditions at fixed $b$, and check the distribution of the steady state density $f_c$. Fig.\ \ref{fig:Fc0_hist} shows typical distributions. The distributions show well separated peaks: for smaller values of $f_0$, some replicas converge to the absorbing states $f_c = 0$ or $f_c = 1$. However, all other replicas converge to steady states with the average $f_c$ being independent of $f_0$. Furthermore, the number of replicas which converge to the absorbing states decreases with increasing $f_0$. We thus conclude that the results shown in Figure \ref{fig:Fc} are independent of $f_0$ once the replicas which converged to the absorbing states are discarded.
+
+
+\begin{figure}[h]
+\includegraphics[width=0.3\textwidth]{b1,3_Fc0,1_hist.png} %
+\includegraphics[width=0.3\textwidth]{b1,3_Fc0,5_hist.png} %
+\includegraphics[width=0.3\textwidth]{b1,3_Fc0,9_hist.png}
+%	
+\caption{Histograms of the steady state $f_c$ for 100 independent realizations of initial conditions at $b\approx 1.3637$ and varying $f_0$. The values of $f_0$ are (from left to right) $0.1$, $0.5$ and $0.9$. Note that the central peak position is independent of $f_0$. the See text for discussion.}
+\label{fig:Fc0_hist}
 \end{figure}
 
 
+\emph{Dependence on $L$.---} An important question is whether or not our results are affected by finite size effects. To this end, we performed simulations of the field size $100\times 100\times 100$ for a series of values of the payoff parameter $b$ and $f_0=0.9$. The steady state average density, $f_c$, is consistent for $L=60$ and $L=100$ within errorbars for all values of $b$. We thus conclude that $L=60$ simulations are representative of the thermodynamic limit $L\to\infty$.
 
-But the concentration does not describes how exactly does agents change the strategy. For this we look at the strategy change time and persistence. Persistence is fraction of agents who does not change their strategy over some period of time. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Spatial chaos}
+\label{subsec:chaos}
+
+To further chacterize the various steady state regimes, we investigate (i) how often an agent
+changes the strategy, and (ii) what fraction of agents actually \emph{do} change
+strategy at least once in the steady state. 
+The latter quantity is known as the \emph{persistence} in the theory of disordered systems \cite{Bray1994, Majumdar1999}. Formally, perisistence $P(t_0, t_1)$ is the fraction of agents which did not change their stategy between time steps $t_0$ and $t_1$. In this work, we only study the steady state persistence, $P$, where both $t_0$ and $t_1$ are larger then the burn-in time and separated by $10^4$ time steps. \textbf{RM: correct?} Then $P=1$ means that the game field is completely static, and $P=0$ signals the chaotic regime where no agent keeps the strategy. 
+
 
 \begin{figure}[H]
-	\includegraphics[width = \textwidth]{Change_time.png}
-	\caption{Mean strategy change time}
-	\label{fig:change time}
-\end{figure}
-
-\begin{figure}[h]
-	\includegraphics[width = \textwidth]{Persistence.png}
-	\caption{Persistence}
+\begin{center}
+	\includegraphics[width=0.55\textwidth, keepaspectratio=True]{Change_time.png} \\
+%
+	\includegraphics[width=0.55\textwidth, keepaspectratio=True]{Persistence.png}
+	\caption{(top panel) ''Mean switch time'': the average number of time steps for an agent to change their strategy as a function of the payoff parameter.  
+	Points are simulation results averaged over all agents in a simulations of $10^{4}$ time steps for 10 realizations of initial conditions of the field with $L=60$ and $f_0 = 0.9$.
+	(bottom panel) The steady-state persistence with $t_1 - t_0 = 10^4$ time steps. 
+	 \textbf{RM: correct?} Here the simulations are done for 10 realizations of the initial conditions with $L=60$ and $f_0 = 0.9$. See text for discussion.
+	}
 	\label{fig:persistence}
+\end{center}
 \end{figure}
 
-As we can see from graphs \ref{fig:change time} and \ref{fig:persistence} strategy change time and persistence are strongly related. For $b\in(1, 1.24)$ persistence and change time almost proportional to each other and even to concentration of cooperators. It is because at these low values of $b$ defectors are separated in small isolated groups and agents around thous groups are constantly changing their strategy back and forth. Thus number of agents who change strategy is proportional to the number of defectors. than around $b \approx 1.3$ there are some chaotic regimes where most of the agents very frequently changing their strategy. Also there are some anomalies around $b = 1.4$. For some reason almost all agents stop changing their strategy at those points but not all of them. And not only agents stop changing their strategy, but concentration of cooperators also increases. 
 
-\subsection{The impact of the field}
-In addition to the above measurements, we checked the results of the game on fields of various sizes and with different initial distributions of strategies.
+Fig.\ \ref{fig:persistence} shows simulation results for the mean time an agent keeps the strategy, $\tau_w$, and the steady state persistence, $P$. It is clear from Fig.\ \ref{fig:persistence} that $\tau_w$ and $P$ are
+are strongly correlated. For $b\in(1, 1.24)$,  $P$ and $\tau_w$ are almost proportional to each other and to the concentration of cooperators, cf. Fig.\ \ref{fig:Fc}. 
+A possible explanation is that at these low values of $b$, defectors are separated in small isolated groups
+and the boundaries of these clusters are ``blinking'': the agents at the boundaries are constantly changing their strategy back and forth. Therefore, the number of agents who change strategy is proportional to the number of defectors.  
+For larger values of $b$, $b \approx 1.3$ we have $\tau_w \sim 1$ and $P\sim 0$, which signals the chaotic behavior: nearly all agents switch their strategies often. 
 
-Most all of the previous measurements were taken on a $60\times60\times60$ field because smaller fields are more dependent on the initial situation on the field. And natural question is what happens on larger fields.
-
-
-\begin{figure}[h]
-	\centering
-	
-	\includegraphics[width = \textwidth]{Fc_60_and_100.png}
-	\caption{Mean concentration of cooperators on $60\times60\times60$ and $100\times100\times100$	}
-	\label{fig:Fc100}
-
-\end{figure}
-
-As we can see on graph \ref{fig:Fc100} values on fields of both sizes are identical. So all big enough fields give us identical behavior of the game.
-
-Initial strategies of agents obviously affect the game. Even at the lowest values of $b$ there is a chance that all of the agents will become defectors and vice versa. To find out how exactly initial field affects the game we have measured concentration of cooperators on fields with different initial concentration of cooperators.
-
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.48\textwidth}
-		\includegraphics[width = \textwidth]{b1,3_Fc0,1_hist.png}
-		\caption{$Fc0 \approx 0.1$}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.48\textwidth}
-		\includegraphics[width = \textwidth]{b1,3_Fc0,5_hist.png}
-		\caption{$Fc0 \approx 0.5$}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.48\textwidth}
-		\includegraphics[width = \textwidth]{b1,3_Fc0,9_hist.png}
-		\caption{$Fc0 \approx 0.9$}
-	\end{subfigure}
-	
-	\caption{Histograms of distribution of 100 independent fields by concentration of cooperators with corresponding initial concentrations, $b\approx 1.3637$}
-	\label{fig:Fc0 hist}
-\end{figure}
-
-It appears that the lower the initial concentration the higher the chances that all of the agents will come to the same strategy. For example on histograms \ref{fig:Fc0 hist} we can see that with initial concentration 0.1 and 0.5 a big portion of fields falls to values of 1 and 0. But all the other fields come to the same value  as the fields with initial concentration of 0.9. So apart from the fields that fall to the extreme values concentration of cooperators does not depend on initial strategies of agents.
+A striking feature of Fig.\ \ref{fig:persistence} is that the chaotic behavior is observed for a wide range of the payoff parameter $b$. This should be contrasted to the game on the square lattice, where the chaotic regime only covers $b\in (9/5, 2)$ and the triangular lattice, where the chaotic behavior is completely absent.
 
 
+\section{Conclusions}
+
+We study a model of spatially distributed evolutionary game based on the Prisoner's Dilemma. Using direct numerical simulations, we characterize the steady states of the game. Comparing our simulations of the game on the three-dimensional simple cubic lattice to two-dimensional simulations of \cite{Nowak1992, Nowak1993, Kolotev2018}, we find that the larger coordination number of the lattice facilitates the formation of spatial chaos. This way, the steady state of the game is chaotic in the large region of the payoff parameter.
+
+The source code we used for simulations is available in Ref. \cite{github}. 
+This research was supported in part through computational resources of HPC facilities at NRU HSE.
+
+
+\section*{References}
 \begin{thebibliography}{9}
 
-\bibitem{github}
-Github repository: https://github.com/MoskalenkoRomanBorisovich/Spatial-Distribution-Evolutionary-Game. 
+\bibitem{Axelrod2006} see, e.g., R.~Axelrod, \textit{The Evolution of Cooperation}, Basic Books,
+2006, and references therein.
 
-\bibitem{nowak and may 1}
-M.A. Nowak and R.M. May, Evolutionary games and spatial chaos, Nature 359, 826 (1992).
+\bibitem{Smith1982} J. Maynard Smith, \textit{Evolution and the Theory of Games},
+Cambridge University Press, (1982).
 
-\bibitem{nowak and may 2}
-M.A. Nowak, Evolutionary Dynamics: Exploring the equations of life, The Belknap Press, (2006).
+\bibitem{Nowak1992} M.A.~Nowak and R.M.~May, \textit{Evolutionary games
+and spatial chaos}, Nature \textbf{359}, 826 (1992).
+
+\bibitem{Nowak1993} M.A.~Nowak and R.M.~May, \textit{The spatial
+dilemmas of evolution}, Int. J. Birurcation and Chaos \textbf{3}(1), 35-78 (1993).
+
+\bibitem{Hauert2005} C.~Hauert and G.~Szabo, \textit{Game theory and physics},
+Am. J. Phys. \textbf{73}(5), 405414 (2005).
+
+\bibitem{Hofbauer2008} see, e.g. J.~Hofbauer and K.~Sigmund, \textit{Evolutionary games and population dynamics}, Cambridge University Press, 2008.
+
+\bibitem{Szolnoki2005} Gy\"{o}rgy Szab\'{o}, Jeromos Vukov, and Attila Szolnoki, \textit{Phase diagrams for an evolutionary prisoner’s dilemma game on two-dimensional lattices}, Phys. Rev. E \textbf{72}, 047107 (2005).
+
+\bibitem{Szolnoki2017} Marco A. Amaral, Matjaz Perc,  Lucas Wardil, Attila Szolnoki, Elton J. da Silva J\'{u}nior, and Jafferson K. L. da Silva, \textit{Role-separating ordering in social dilemmas controlled by topological frustration}, Phys. Rev. E \textbf{95}, 032307 (2017).
+
+\bibitem{Szolnoki2009} Attila Szolnoki and Matjaz Perc, \textit{Emergence of multilevel selection in the prisoner’sdilemma game on coevolving random networks}, New J. Phys. \textbf{11}, 093033 (2009).
+
+\bibitem{Arenzon2001}  Mendeli H. Vainstein and Jeferson J. Arenzon, \textit{Disordered environments in spatial games}, Phys Rev E \textbf{64}, 051905 (2001).
+
+\bibitem{Kolotev2018} S.~Kolotev, A.~Malyutin, E.~Burovski,~S. Krashakov, L.~Shchur, \textit{Dynamic fractals in spatial evolutionary games}, Physica A  \textbf{499}, 142 (2018)
+
+\bibitem{Burovski2019} E.~Burovski, A.~Malyutin, L.~Shchur, \textit{On the geometric structures in evolutionary games on square and triangular lattices}, J. Phys.: Conf. Ser., \textbf{1290}, 012027 (2019) 
+
+\bibitem{Bray1994} B. Derrida, A.J.~Bray, and G. Godr\'{e}che, J. Phys. A \textbf{27}, L357 (1994); A.J.~Bray, B.~Derrida, and G. Godr\'{e}che, Europhys. Lett. \textbf{27}, 175 (1994).
+
+\bibitem{Majumdar1999} S.N.~Majumdar, Curr. Sci. \textbf{77}, 370 (1999).
+
+\bibitem{github} https://github.com/MoskalenkoRomanBorisovich/Spatial-Distribution-Evolutionary-Game 
+
 
 \end{thebibliography}
 
