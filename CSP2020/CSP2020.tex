@@ -78,12 +78,10 @@ dynamics games on regular, decorated and frustrated two-dimensional lattices
 on the square lattice, \cite{Kolotev2018}, the triangular lattice
 \cite{Burovski2019} and diluted 2D lattices \cite{Arenzon2001}.
 
-Focusing on the long-time behavior of an iterated spatially
-distributed game, the steady states can be roughly classified into stationary
-and chaotic. The former feature relatively stable clusters of agents of the same
-strategy, and only agents located at the boundaries switch strategies often. 
-In a chaotic regime, every agent switch the strategies at
-the timescale of several time steps.
+Steady states can be roughly classified into stationary and chaotic by the long-time behavior of
+an iterated spatially distributed game. The former feature relatively stable clusters of agents of the same
+strategy and only agents located at the boundaries switch strategies often. In a chaotic regime, every
+agent switches the strategies at the timescale of several time steps.
 
 We note that the bulk of prior work was focussing on the two-dimensional arrangements of
 players. The local structure of the population was found to play non-trivial
@@ -119,7 +117,7 @@ and itself \cite{Nowak1993}. On the cubic lattice, the number of games is 27, i.
 the neighborhood of an agent is the cube with the edge length of 3 sites.}
 %
 %
-, and collects the payoff according to the the payoff
+and collects the payoff according to the the payoff
 table, Fig.\ \ref{fig:score-table}.  Note that the we set the
 $\mathcal{C}$-$\mathcal{C}$ payoff to unity to fix the payoff scale. This way, the
 game is parameterized by a single parameter: the payoff, $b$, the defector receives
@@ -176,9 +174,9 @@ we use periodic boundary conditions to minimize finite-size effects.
 \subsection{The steady-state behavior of the game}
 \label{subsec:fc}
 
-We simulate the game field with $L=60$ using $10^4$ using 10 random realizations of initial conditions at a fixed value of the initial concentration, $f_0 = 0.9$.
+We simulate the game field with $L=60$ using 10 random realizations of initial conditions (replicas) at a fixed value of the initial concentration, $f_0 = 0.9$.
 To reach the steady state, we monitor time dependence of the fraction of cooperators, $f_c$ (the number of cooperators divided by $L^3$). 
-In most cases, $f_c$ stabilizes (up to fluctuations) in $\sim 2$-$3 \times 10^3$ steps.  
+In most cases, $f_c$ stabilizes (up to fluctuations) in $\sim 2$-$3 \times 10^3$ time steps.  
 We then simulate the game for $10^4$ steps and average over the time measurements and realizations of initial conditions.
 
 Fig.\ \ref{fig:Fc} shows the dependence of the fraction of cooperators, $f_c$ on the payoff parameter $b$. 
@@ -224,9 +222,10 @@ The latter quantity is known as the \emph{persistence} in the theory of disorder
 	\includegraphics[width=0.55\textwidth, keepaspectratio=True]{Change_time.png} \\
 %
 	\includegraphics[width=0.55\textwidth, keepaspectratio=True]{Persistence.png}
-	\caption{(top panel) ''Mean switch time'': the average number of time steps for an agent to change their strategy as a function of the payoff parameter.  
+	%
+	\caption{(top panel) ``Mean switch time'': the average number of time steps for an agent to change their strategy as a function of the payoff parameter.  
 	Points are simulation results averaged over all agents in a simulations of $10^{3}$ time steps for 10 realizations of initial conditions of the field with $L=60$ and $f_0 = 0.9$.
-	(bottom panel) The steady-state persistence with $t_1 - t_0 = 10^4$ time steps. Here the simulations are done for 10 realizations of the initial conditions with $L=60$ and $f_0 = 0.9$. See text for discussion.
+	(bottom panel) The steady-state persistence with $t_1 - t_0 = 10^4$ time steps. She simulations are done for 10 realizations of the initial conditions with $L=60$ and $f_0 = 0.9$. See text for discussion.
 	}
 	\label{fig:persistence}
 \end{center}
@@ -234,7 +233,7 @@ The latter quantity is known as the \emph{persistence} in the theory of disorder
 
 
 Fig.\ \ref{fig:persistence} shows simulation results for the mean time an agent keeps the strategy, $\tau_w$, and the steady state persistence, $P$. It is clear from Fig.\ \ref{fig:persistence} that $\tau_w$ and $P$ are
-are strongly correlated. For $b\in(1, 1.24)$,  $P$ and $\tau_w$ are almost proportional to each other and to the concentration of cooperators, cf. Fig.\ \ref{fig:Fc}. 
+strongly correlated. For $b\in(1, 1.24)$,  $P$ and $\tau_w$ are almost proportional to each other and to the concentration of cooperators, cf. Fig.\ \ref{fig:Fc}. 
 A possible explanation is that at these low values of $b$, defectors are separated in small isolated groups
 and the boundaries of these clusters are ``blinking'': the agents at the boundaries are constantly changing their strategy back and forth. Therefore, the number of agents who change strategy is proportional to the number of defectors.  
 For larger values of $b$, $b \approx 1.3$ we have $\tau_w \sim 1$ and $P\sim 0$, which signals the chaotic behavior: nearly all agents switch their strategies often. 
@@ -245,9 +244,9 @@ A striking feature of Fig.\ \ref{fig:persistence} is that the chaotic behavior i
 \section{Conclusions}
 
 We study a model of spatially distributed evolutionary game based on the Prisoner's Dilemma. Using direct numerical simulations, we characterize the steady states of the game. Comparing our simulations of the game on the three-dimensional simple cubic lattice to two-dimensional simulations of \cite{Nowak1992, Nowak1993, Kolotev2018}, we find that the larger coordination number of the lattice facilitates the formation of spatial chaos. This way, the steady state of the game is chaotic in the large region of the payoff parameter.
-
 The source code we used for simulations is available in Ref. \cite{github}. 
-This research was supported in part through computational resources of HPC facilities at NRU HSE.
+
+This research was supported in part through computational resources of HPC facilities at NRU HSE. L.~Shchur acknowledges the Scientific program of the Science Center of RAS in Chernogolovka.
 
 
 \section*{References}
