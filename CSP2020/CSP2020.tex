@@ -153,7 +153,7 @@ See text for discussion.}
 The discrete structure of the payoffs implies that the dynamics of the game given
 the initial conditions is insensitive to infinitesimal changes of the payoff parameter $b$ \cite{Nowak1992}.
 The dynamics can only change at special values of $b$, which are nothing but simple fractions, $m/n$, 
-where $m$ and $n$ are positive integers greater then or equal to the number of elementary games of an agent.
+where $m$ and $n$ are positive integers less then or equal to the number of elementary games of an agent.
 On the square lattice this means that $1 \leqslant m, n \leqslant 9$ \cite{Nowak1992}. For the cubic lattice we consider in this work, 
 %
 \begin{equation}
@@ -216,7 +216,7 @@ $f_0 = 0.1$ and $f_0 = 0.5$. For each value of $f_0$, we simulate 100 independen
 To further chacterize the various steady state regimes, we investigate (i) how often an agent
 changes the strategy, and (ii) what fraction of agents actually \emph{do} change
 strategy at least once in the steady state. 
-The latter quantity is known as the \emph{persistence} in the theory of disordered systems \cite{Bray1994, Majumdar1999}. Formally, perisistence $P(t_0, t_1)$ is the fraction of agents which did not change their stategy between time steps $t_0$ and $t_1$. In this work, we only study the steady state persistence, $P$, where both $t_0$ and $t_1$ are larger then the burn-in time and separated by $10^4$ time steps. \textbf{RM: correct?} Then $P=1$ means that the game field is completely static, and $P=0$ signals the chaotic regime where no agent keeps the strategy. 
+The latter quantity is known as the \emph{persistence} in the theory of disordered systems \cite{Bray1994, Majumdar1999}. Formally, perisistence $P(t_0, t_1)$ is the fraction of agents which did not change their stategy between time steps $t_0$ and $t_1$. In this work, we only study the steady state persistence, $P$, where both $t_0$ and $t_1$ are larger then the burn-in time and separated by $10^4$ time steps. Then $P=1$ means that the game field is completely static, and $P=0$ signals the chaotic regime where no agent keeps the strategy. 
 
 
 \begin{figure}[H]
@@ -225,9 +225,8 @@ The latter quantity is known as the \emph{persistence} in the theory of disorder
 %
 	\includegraphics[width=0.55\textwidth, keepaspectratio=True]{Persistence.png}
 	\caption{(top panel) ''Mean switch time'': the average number of time steps for an agent to change their strategy as a function of the payoff parameter.  
-	Points are simulation results averaged over all agents in a simulations of $10^{4}$ time steps for 10 realizations of initial conditions of the field with $L=60$ and $f_0 = 0.9$.
-	(bottom panel) The steady-state persistence with $t_1 - t_0 = 10^4$ time steps. 
-	 \textbf{RM: correct?} Here the simulations are done for 10 realizations of the initial conditions with $L=60$ and $f_0 = 0.9$. See text for discussion.
+	Points are simulation results averaged over all agents in a simulations of $10^{3}$ time steps for 10 realizations of initial conditions of the field with $L=60$ and $f_0 = 0.9$.
+	(bottom panel) The steady-state persistence with $t_1 - t_0 = 10^4$ time steps. Here the simulations are done for 10 realizations of the initial conditions with $L=60$ and $f_0 = 0.9$. See text for discussion.
 	}
 	\label{fig:persistence}
 \end{center}
